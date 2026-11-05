@@ -13,6 +13,8 @@ npm.cmd run dev
 
 Откройте http://localhost:3000. Для проверки: `npm.cmd run typecheck`, `npm.cmd run lint`, `npm.cmd test`, `npm.cmd run build`, `npm.cmd run test:e2e`. Для запуска e2e на новом компьютере предварительно установите Chromium: `node node_modules/@playwright/test/cli.js install chromium`.
 
+Публичная версия после публикации через GitHub Pages: https://musulman2607-ship-it.github.io/ishara-kids/. Workflow `.github/workflows/pages.yml` создаёт статический экспорт из ветки `main`; при публикации устанавливается `GITHUB_PAGES=true`, чтобы Next.js учёл подкаталог `/ishara-kids`. Обновления в `main` автоматически публикуются повторно. Хранение прогресса остаётся только в браузере конкретного посетителя.
+
 ## Данные и проверка
 
 - Учебные темы и Zod-схема находятся в `src/lib/content.ts`; хранение локального прогресса и правила начисления — в `src/lib/progress.ts`. `ProgressRepository` можно заменить адаптером сервера без изменения схемы интерфейса.
