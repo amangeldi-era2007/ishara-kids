@@ -1,0 +1,1 @@
+export default function Loading() { return <div className="container section" role="status"><div className="card"><span className="icon-bubble">✦</span><p>Загружаем приключение… / Саяхат жүктелуде…</p></div></div>; }
