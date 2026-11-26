@@ -27,10 +27,12 @@ export function completeGame(progress: Progress, id: string): Progress {
   return { ...progress, games: { ...progress.games, [id]: true } };
 }
 export const totalStars = (progress: Progress) => Object.values(progress.completed).reduce((sum, points) => sum + points, 0) + Object.values(progress.games).filter(Boolean).length * 10;
-export const badges = (progress: Progress) => [
+export const achievementSchema = z.object({id:z.enum(['first','unit','explorer','play']),unlocked:z.boolean()});
+export type Achievement = z.infer<typeof achievementSchema>;
+export const badges = (progress: Progress):Achievement[] => [
   { id: 'first', unlocked: Object.keys(progress.completed).length >= 1 },
   { id: 'unit', unlocked: lessons.filter((l) => l.unit === 1).every((l) => progress.completed[l.id] !== undefined) },
   { id: 'explorer', unlocked: lessons.every((l) => progress.completed[l.id] !== undefined) },
-  { id: 'play', unlocked: Object.values(progress.games).filter(Boolean).length >= 2 },
+  { id: 'play', unlocked: Boolean(progress.games.garden && progress.games.pairs) },
 ];
 export function getLocale(progress: Progress): Locale { return progress.locale; }

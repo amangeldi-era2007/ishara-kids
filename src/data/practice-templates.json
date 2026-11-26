@@ -1,0 +1,4 @@
+{
+  "classes": [],
+  "validation": "No camera classifier is calibrated. The public QazSL v1 archive (doi:10.5281/zenodo.22830162) contains numbered 50×50 grayscale stills, including byte-identical duplicates within classes. It provides no signer, session, or split identifiers. These files do not establish independent positive and negative validation."
+}

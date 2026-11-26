@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
-import { BookOpen, Gift, Gamepad2, Home, Map, Menu, UserRound, X, Star } from 'lucide-react';
+import { BookOpen, Gift, Gamepad2, Home, Map, Menu, UserRound, X, Star,ScanLine } from 'lucide-react';
 import { browserRepository, initialProgress, totalStars, type Progress } from '@/lib/progress';
 import { t, type Locale, type Text } from '@/lib/content';
 
@@ -29,6 +29,7 @@ const links = [
   { href: '/', label: t('Главная', 'Басты бет'), icon: Home },
   { href: '/learn', label: t('Уроки', 'Сабақтар'), icon: Map },
   { href: '/games', label: t('Игры', 'Ойындар'), icon: Gamepad2 },
+  { href: '/practice', label: t('AI-тренажёр', 'AI жаттықтырғыш'), icon: ScanLine },
   { href: '/dictionary', label: t('Словарь', 'Сөздік'), icon: BookOpen },
   { href: '/rewards', label: t('Награды', 'Марапаттар'), icon: Gift },
   { href: '/profile', label: t('Профиль', 'Профиль'), icon: UserRound },
@@ -41,7 +42,8 @@ export function LanguageSwitcher() {
   </div>;
 }
 export function Mascot({ small = false, mood = 'happy' }: { small?: boolean; mood?: 'happy' | 'wow' }) {
-  return <svg className={small ? 'mascot small' : 'mascot'} viewBox="0 0 280 280" role="img" aria-label="Мими — дружелюбный вымышленный персонаж, не демонстрирует жест">
+  const w=useWords();
+  return <svg className={small ? 'mascot small' : 'mascot'} viewBox="0 0 280 280" role="img" aria-label={w(t('Мими, проводник по атласу','Мими, атлас бойынша жолсерік'))}>
     <ellipse cx="141" cy="254" rx="95" ry="14" fill="#243746" opacity=".10" />
     <path d="M55 119 C23 44 87 32 112 75 Q140 58 169 75 C202 32 258 46 226 119" fill="#85d7bd" stroke="#294b50" strokeWidth="5" />
     <path d="M61 98 C37 52 84 51 100 83 M180 83 C202 50 241 55 216 99" fill="#b5ead3" />

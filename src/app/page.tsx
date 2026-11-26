@@ -1,7 +1,112 @@
 'use client';
 import Link from 'next/link';
-import { ArrowRight, CheckCircle2, Heart, Sparkles } from 'lucide-react';
-import { DemoNote, Mascot, useWords } from '@/components/app-shell';
-import { lessons, t } from '@/lib/content';
+import { ArrowRight, Map, Compass } from 'lucide-react';
+import { AtlasCover } from '@/components/atlas-cover';
+import { useWords } from '@/components/app-shell';
+import { categories } from '@/data/atlas';
+import { t } from '@/lib/content';
 
-export default function HomePage() { const w = useWords(); return <><section className="hero"><div className="container hero-grid"><div><span className="eyebrow">✦ {w(t('Привет, исследователь!', 'Сәлем, зерттеуші!'))}</span><h1>{w(t('Маленькие шаги —', 'Кішкентай қадамдар —'))}<br /><em>{w(t('большие открытия.', 'үлкен жаңалықтар.'))}</em></h1><p>{w(t('Добро пожаловать в Ishara Kids! Играем, исследуем и готовимся узнавать язык жестов Казахстана вместе с экспертами.', 'Ishara Kids әлеміне қош келдің! Ойнаймыз, зерттейміз және Қазақстандағы ым тілін мамандармен бірге танып-білуге дайындаламыз.'))}</p><div className="hero-buttons"><Link className="btn btn-primary" href="/learn">{w(t('Начать приключение', 'Саяхатты бастау'))} <ArrowRight size={20} /></Link><Link className="btn btn-light" href="/parents">{w(t('Родителям', 'Ата-аналарға'))}</Link></div><div className="feature-strip"><span><CheckCircle2 size={18} /> {w(t('Короткие уроки', 'Қысқа сабақтар'))}</span><span><Heart size={18} /> {w(t('Без спешки', 'Асықпай'))}</span></div></div><div className="hero-art"><span className="float-card one">⭐ +10</span><Mascot /><span className="float-card two">✦ {w(t('Ты сможешь!', 'Сенің қолыңнан келеді!'))}</span></div></div></section><div className="container"><DemoNote /><section className="section"><div className="section-head"><div><span className="eyebrow">{w(t('Как это работает', 'Қалай жұмыс істейді'))}</span><h2>{w(t('Учимся через открытия', 'Жаңалықтар арқылы үйренеміз'))}</h2></div></div><div className="grid"><article className="card"><span className="icon-bubble">👀</span><h3>{w(t('Смотри', 'Қара'))}</h3><p>{w(t('В будущем здесь появятся проверенные видеопоказы жестов. Пока играем с обычными понятиями.', 'Болашақта мұнда тексерілген ым бейнелері болады. Әзірге қарапайым ұғымдармен ойнаймыз.'))}</p></article><article className="card"><span className="icon-bubble">🧩</span><h3>{w(t('Пробуй', 'Байқап көр'))}</h3><p>{w(t('Выбирай ответы и собирай пары. Ошибка — просто повод попробовать ещё раз.', 'Жауаптарды таңда, жұптарды тап. Қателессең, қайта көр!'))}</p></article><article className="card"><span className="icon-bubble">🌟</span><h3>{w(t('Расти', 'Өс'))}</h3><p>{w(t('Зарабатывай звёзды, открывай новые темы и празднуй свои успехи.', 'Жұлдыз жина, жаңа тақырыптарды аш және жетістігіңе қуан.'))}</p></article></div></section><section className="section"><div className="section-head"><h2>{w(t('Первые остановки', 'Алғашқы аялдамалар'))}</h2><Link href="/learn" className="text-link">{w(t('Вся карта →', 'Толық карта →'))}</Link></div><div className="grid">{lessons.map((lesson, i) => <div key={lesson.id} className="card"><span className="icon-bubble" style={{ background: ['#e4f3e8','#e7f0ff','#f8e7ed'][i] }}>{lesson.icon}</span><span className="status demo">{w(t('Демо', 'Демо'))}</span><h3 style={{ marginTop: 12 }}>{w(lesson.title)}</h3><p>{w(lesson.description)}</p></div>)}</div></section><section className="section"><div className="banner"><div><span className="eyebrow">✿ {w(t('Для взрослых', 'Ересектерге'))}</span><h2 style={{ marginTop:15 }}>{w(t('Учимся ответственно', 'Жауапкершілікпен үйренеміз'))}</h2><p>{w(t('О том, что уже работает, как мы защищаем данные и почему настоящие жесты появятся только после проверки.', 'Не жұмыс істейтінін, деректерді қалай қорғайтынымызды және шынайы ымдар неге тек тексерілгеннен кейін пайда болатынын оқыңыз.'))}</p></div><Link className="btn btn-light" href="/parents">{w(t('Подробнее', 'Толығырақ'))} <Sparkles size={18} /></Link></div></section></div></>; }
+export default function HomePage() {
+  const w = useWords();
+  return (
+    <div className="container atlas-home">
+      <section className="atlas-hero">
+        <div>
+          <span className="atlas-kicker">
+            <Compass size={18} /> ISHARA KIDS /{' '}
+            {w(t('Детский атлас', 'Балалар атласы'))}
+          </span>
+          <h1>
+            {w(t('Открой мир', 'Ым әлемін'))}
+            <br />
+            <em>
+              {w(t('жестов', 'аш'))}
+              <span className="sun-dot">.</span>
+            </em>
+          </h1>
+          <p>
+            {w(
+              t(
+                'Пройди с Мими по карте Казахстана: рассматривай картинки, находи пары и собирай звёзды.',
+                'Мимимен бірге Қазақстан картасын арала: суреттерді қара, жұптарды тап, жұлдыз жина.',
+              ),
+            )}
+          </p>
+          <div className="hero-buttons">
+            <Link href="/learn" className="btn btn-primary">
+              {w(t('Начать', 'Бастау'))}
+              <ArrowRight size={20} />
+            </Link>
+            <Link href="/dictionary" className="btn btn-light">
+              {w(t('Открыть словарь', 'Сөздікті ашу'))}
+            </Link>
+          </div>
+          <small>
+            {w(
+              t(
+                'Демо: сейчас играем с понятиями. Видео жестов ждут проверки.',
+                'Демо: әзірге ұғымдармен ойнаймыз. Ым бейнелері тексерілген соң қосылады.',
+              ),
+            )}
+          </small>
+          <div className="launch-links">
+            <Link className="text-link" href="/practice">
+              {w(t('Попробовать AI-тренажёр', 'AI жаттықтырғышын байқап көру'))}{' '}
+              →
+            </Link>
+            <Link className="text-link" href="/dictionary?category=alphabet">
+              {w(t('Дактильный алфавит', 'Дактиль әліпбиі'))} →
+            </Link>
+          </div>
+        </div>
+        <AtlasCover />
+      </section>
+      <section className="atlas-section">
+        <span className="atlas-kicker">
+          <Map size={16} /> 01 / {w(t('Путеводитель', 'Жолсілтеме'))}
+        </span>
+        <div className="section-head">
+          <h2>{w(t('Десять тем для открытий', 'Ашуға болатын он тақырып'))}</h2>
+          <Link className="text-link" href="/learn">
+            {w(t('Вся карта →', 'Толық карта →'))}
+          </Link>
+        </div>
+        <div className="stamps">
+          {categories
+            .filter((c) => c.id !== 'discovery')
+            .map((c, i) => (
+              <Link
+                key={c.id}
+                href={`/dictionary/?category=${c.id}`}
+                className="stamp"
+                style={{ background: c.tint }}
+              >
+                <small>№ {String(i + 1).padStart(2, '0')}</small>
+                <span aria-hidden="true">{c.icon}</span>
+                <strong>{w(t(c.ru, c.kk))} ↗</strong>
+              </Link>
+            ))}
+        </div>
+      </section>
+      <section className="banner atlas-family">
+        <div>
+          <span className="atlas-kicker">
+            02 / {w(t('Семейная заметка', 'Отбасына жазба'))}
+          </span>
+          <h2>{w(t('Что видит ребёнок?', 'Бала не көреді?'))}</h2>
+          <p>
+            {w(
+              t(
+                'Карточка помогает понять слово. Для показа жеста нужны проверенное видео и разрешение на публикацию.',
+                'Карточка сөзді түсінуге көмектеседі. Ымды көрсету үшін тексерілген бейне мен жариялауға рұқсат қажет.',
+              ),
+            )}
+          </p>
+        </div>
+        <Link href="/parents" className="btn btn-light">
+          {w(t('Родителям', 'Ата-аналарға'))} <ArrowRight size={18} />
+        </Link>
+      </section>
+    </div>
+  );
+}

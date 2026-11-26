@@ -1,0 +1,25 @@
+QazSL fingerspelling reference photos (40 individual still images)
+
+Source: Figure 1, “The Kazakh fingerspelling alphabet,” in “Single-Frame
+Recognition of the Kazakh Sign Language Fingerspelling Alphabet: The Open QazSL
+Dataset and a Compact Hybrid Architecture” by Nurassyl Kerimbayev, Nurbol
+Beisov, and Vladimir Jotsov, Technologies 14(11), 744 (2026).
+https://doi.org/10.3390/technologies14110744
+Original PNG, 1983 × 1501:
+https://pub.mdpi-res.com/technologies/technologies-14-00744/article_deploy/html/images/technologies-14-00744-g001.png
+
+© 2026 by the authors. Creative Commons Attribution 4.0 International:
+https://creativecommons.org/licenses/by/4.0/
+
+Adaptation: Each file is a crop of one hand photo, enlarged to 720 pixels high
+with Lanczos resampling. The original spacing and printed labels were removed.
+The photos were not flipped, reconstructed or generatively edited.
+Crop coordinates are in scripts/export-qazsl-photos.py.
+
+The source figure has no photos of Ъ or Ь. A still image only shows one pose, not
+the movement of a dynamic letter. These are sourced research references pending
+project-specific teaching review; they are not recognition templates.
+
+Links to original clips in the “Әліппе” playlist reference the surdo server
+channel / Surdo.kz. The CC BY 4.0 credit above applies to the article photos,
+not to the linked videos, which are not copied or hosted by Ishara Kids.
