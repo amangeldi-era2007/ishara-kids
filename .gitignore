@@ -6,3 +6,6 @@ out/
 playwright-report/
 test-results/
 *.tsbuildinfo
+.local-data/
+.env*
+!.env.example

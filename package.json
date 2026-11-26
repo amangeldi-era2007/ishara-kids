@@ -9,6 +9,8 @@
     "prebuild": "npm run setup:hand-camera",
     "build": "next build",
     "start": "next start",
+    "backend": "node server/index.mjs",
+    "test:backend": "node --test server/progress.test.mjs",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",

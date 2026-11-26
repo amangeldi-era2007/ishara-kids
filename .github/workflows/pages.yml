@@ -25,10 +25,12 @@ jobs:
       - run: npm run typecheck
       - run: npm run lint
       - run: npm test
+      - run: npm run test:backend
       - name: Build static site
         run: npm run build
         env:
           GITHUB_PAGES: 'true'
+          NEXT_PUBLIC_PROGRESS_API: ${{ vars.PROGRESS_API_URL }}
       - uses: actions/upload-pages-artifact@v4
         with:
           path: out

@@ -1,11 +1,189 @@
 'use client';
 import * as Dialog from '@radix-ui/react-dialog';
 import { useState } from 'react';
-import { SectionIntro, useProgress, useWords, LanguageSwitcher } from '@/components/app-shell';
+import {
+  SectionIntro,
+  useProgress,
+  useWords,
+  LanguageSwitcher,
+} from '@/components/app-shell';
 import { t } from '@/lib/content';
-import { lessons, } from '@/lib/content';
+import { lessons } from '@/lib/content';
 import { totalStars } from '@/lib/progress';
-const avatars = [{id:'star',icon:'⭐'},{id:'fox',icon:'🦊'},{id:'flower',icon:'🌼'}] as const;
-export default function ProfilePage() { const w=useWords(); const {progress,update,reset}=useProgress(); const [confirm,setConfirm]=useState(false); const [nickname,setNickname]=useState<string|null>(null); const displayed=nickname===null?progress.nickname:nickname;
-  return <div className="container"><SectionIntro eyebrow={t('Моё пространство','Менің кеңістігім')} title={t('Мой профиль','Менің профилім')} description={t('Только на этом устройстве. Не нужен адрес почты или настоящее имя.','Тек осы құрылғыда сақталады. Пошта немесе шын атың қажет емес.')} /><div className="grid two"><section className="card"><span className="icon-bubble">{avatars.find((a)=>a.id===progress.avatar)?.icon}</span><h2>{w(t('Как тебя называть?', 'Сені қалай атаймыз?'))}</h2><label className="field" htmlFor="nickname">{w(t('Придумай имя (необязательно)','Ойдан ат тап (міндетті емес)'))}</label><input className="input" id="nickname" value={displayed} maxLength={24} placeholder={w(t('Например, Искатель','Мысалы, Зерттеуші'))} onChange={(e)=>setNickname(e.target.value)} /><button type="button" className="btn btn-primary" style={{ marginTop:14 }} onClick={()=>{update((p)=>({...p,nickname:displayed.trim()}));setNickname(null);}}>{w(t('Сохранить имя','Атты сақтау'))}</button><h3 style={{ marginTop:26 }}>{w(t('Выбери персонажа','Кейіпкерді таңда'))}</h3><div className="avatar-pick">{avatars.map((a)=><button key={a.id} type="button" className={a.id===progress.avatar?'active':''} aria-label={a.id} aria-pressed={a.id===progress.avatar} onClick={()=>update((p)=>({...p,avatar:a.id}))}>{a.icon}</button>)}</div><h3 style={{ marginTop:26 }}>{w(t('Язык интерфейса','Интерфейс тілі'))}</h3><LanguageSwitcher /></section><section className="card"><h2>{w(t('Мои достижения','Менің жетістіктерім'))}</h2><div className="stat-row"><div className="stat"><strong>⭐ {totalStars(progress)}</strong>{w(t('звёзд','жұлдыз'))}</div><div className="stat"><strong>{Object.keys(progress.completed).length}/{lessons.length}</strong>{w(t('уроков','сабақ'))}</div></div><div className="progress-track" style={{ margin:'20px 0' }} role="progressbar" aria-label={w(t('Прогресс уроков','Сабақ барысы'))} aria-valuenow={Object.keys(progress.completed).length} aria-valuemin={0} aria-valuemax={lessons.length}><div className="progress-fill" style={{ width:`${Object.keys(progress.completed).length/lessons.length*100}%` }}/></div><h3>{w(t('Завершённые уроки','Аяқталған сабақтар'))}</h3>{Object.keys(progress.completed).length ? <ul>{lessons.filter((l)=>progress.completed[l.id]!==undefined).map((l)=><li key={l.id}>{l.icon} {w(l.title)}</li>)}</ul>:<p>{w(t('Пока пусто — начни первый урок!', 'Әзірге бос — алғашқы сабақты баста!'))}</p>}<Dialog.Root open={confirm} onOpenChange={setConfirm}><Dialog.Trigger asChild><button className="btn btn-light" type="button" style={{ marginTop:24 }}>{w(t('Сбросить прогресс','Үлгерімді өшіру'))}</button></Dialog.Trigger><Dialog.Portal><Dialog.Overlay className="dialog-overlay"><Dialog.Content className="dialog-content"><Dialog.Title asChild><h2>{w(t('Начать с начала?', 'Қайта бастаймыз ба?'))}</h2></Dialog.Title><Dialog.Description>{w(t('Имя, звёзды и пройденные уроки будут удалены с этого устройства.','Ат, жұлдыздар мен өткен сабақтар осы құрылғыдан өшіріледі.'))}</Dialog.Description><div className="dialog-actions"><Dialog.Close asChild><button type="button" className="btn btn-light">{w(t('Отмена','Болдырмау'))}</button></Dialog.Close><button type="button" className="btn btn-coral" onClick={()=>{reset();setNickname(null);setConfirm(false);}}>{w(t('Да, сбросить','Иә, өшіру'))}</button></div></Dialog.Content></Dialog.Overlay></Dialog.Portal></Dialog.Root></section></div></div>;
+import { ProgressBackup } from '@/components/progress-backup';
+const avatars = [
+  { id: 'star', icon: '⭐' },
+  { id: 'fox', icon: '🦊' },
+  { id: 'flower', icon: '🌼' },
+] as const;
+export default function ProfilePage() {
+  const w = useWords();
+  const { progress, update, reset } = useProgress();
+  const [confirm, setConfirm] = useState(false);
+  const [nickname, setNickname] = useState<string | null>(null);
+  const displayed = nickname === null ? progress.nickname : nickname;
+  return (
+    <div className="container">
+      <SectionIntro
+        eyebrow={t('Моё пространство', 'Менің кеңістігім')}
+        title={t('Мой профиль', 'Менің профилім')}
+        description={t(
+          'Только на этом устройстве. Не нужен адрес почты или настоящее имя.',
+          'Тек осы құрылғыда сақталады. Пошта немесе шын атың қажет емес.',
+        )}
+      />
+      <div className="grid two">
+        <section className="card">
+          <span className="icon-bubble">
+            {avatars.find((a) => a.id === progress.avatar)?.icon}
+          </span>
+          <h2>{w(t('Как тебя называть?', 'Сені қалай атаймыз?'))}</h2>
+          <label className="field" htmlFor="nickname">
+            {w(
+              t('Придумай имя (необязательно)', 'Ойдан ат тап (міндетті емес)'),
+            )}
+          </label>
+          <input
+            className="input"
+            id="nickname"
+            value={displayed}
+            maxLength={24}
+            placeholder={w(t('Например, Искатель', 'Мысалы, Зерттеуші'))}
+            onChange={(e) => setNickname(e.target.value)}
+          />
+          <button
+            type="button"
+            className="btn btn-primary"
+            style={{ marginTop: 14 }}
+            onClick={() => {
+              update((p) => ({ ...p, nickname: displayed.trim() }));
+              setNickname(null);
+            }}
+          >
+            {w(t('Сохранить имя', 'Атты сақтау'))}
+          </button>
+          <h3 style={{ marginTop: 26 }}>
+            {w(t('Выбери персонажа', 'Кейіпкерді таңда'))}
+          </h3>
+          <div className="avatar-pick">
+            {avatars.map((a) => (
+              <button
+                key={a.id}
+                type="button"
+                className={a.id === progress.avatar ? 'active' : ''}
+                aria-label={a.id}
+                aria-pressed={a.id === progress.avatar}
+                onClick={() => update((p) => ({ ...p, avatar: a.id }))}
+              >
+                {a.icon}
+              </button>
+            ))}
+          </div>
+          <h3 style={{ marginTop: 26 }}>
+            {w(t('Язык интерфейса', 'Интерфейс тілі'))}
+          </h3>
+          <LanguageSwitcher />
+        </section>
+        <section className="card">
+          <h2>{w(t('Мои достижения', 'Менің жетістіктерім'))}</h2>
+          <div className="stat-row">
+            <div className="stat">
+              <strong>⭐ {totalStars(progress)}</strong>
+              {w(t('звёзд', 'жұлдыз'))}
+            </div>
+            <div className="stat">
+              <strong>
+                {Object.keys(progress.completed).length}/{lessons.length}
+              </strong>
+              {w(t('уроков', 'сабақ'))}
+            </div>
+          </div>
+          <div
+            className="progress-track"
+            style={{ margin: '20px 0' }}
+            role="progressbar"
+            aria-label={w(t('Прогресс уроков', 'Сабақ барысы'))}
+            aria-valuenow={Object.keys(progress.completed).length}
+            aria-valuemin={0}
+            aria-valuemax={lessons.length}
+          >
+            <div
+              className="progress-fill"
+              style={{
+                width: `${(Object.keys(progress.completed).length / lessons.length) * 100}%`,
+              }}
+            />
+          </div>
+          <h3>{w(t('Завершённые уроки', 'Аяқталған сабақтар'))}</h3>
+          {Object.keys(progress.completed).length ? (
+            <ul>
+              {lessons
+                .filter((l) => progress.completed[l.id] !== undefined)
+                .map((l) => (
+                  <li key={l.id}>
+                    {l.icon} {w(l.title)}
+                  </li>
+                ))}
+            </ul>
+          ) : (
+            <p>
+              {w(
+                t(
+                  'Пока пусто — начни первый урок!',
+                  'Әзірге бос — алғашқы сабақты баста!',
+                ),
+              )}
+            </p>
+          )}
+          <Dialog.Root open={confirm} onOpenChange={setConfirm}>
+            <Dialog.Trigger asChild>
+              <button
+                className="btn btn-light"
+                type="button"
+                style={{ marginTop: 24 }}
+              >
+                {w(t('Сбросить прогресс', 'Үлгерімді өшіру'))}
+              </button>
+            </Dialog.Trigger>
+            <Dialog.Portal>
+              <Dialog.Overlay className="dialog-overlay">
+                <Dialog.Content className="dialog-content">
+                  <Dialog.Title asChild>
+                    <h2>{w(t('Начать с начала?', 'Қайта бастаймыз ба?'))}</h2>
+                  </Dialog.Title>
+                  <Dialog.Description>
+                    {w(
+                      t(
+                        'Имя, звёзды и пройденные уроки будут удалены с этого устройства.',
+                        'Ат, жұлдыздар мен өткен сабақтар осы құрылғыдан өшіріледі.',
+                      ),
+                    )}
+                  </Dialog.Description>
+                  <div className="dialog-actions">
+                    <Dialog.Close asChild>
+                      <button type="button" className="btn btn-light">
+                        {w(t('Отмена', 'Болдырмау'))}
+                      </button>
+                    </Dialog.Close>
+                    <button
+                      type="button"
+                      className="btn btn-coral"
+                      onClick={() => {
+                        reset();
+                        setNickname(null);
+                        setConfirm(false);
+                      }}
+                    >
+                      {w(t('Да, сбросить', 'Иә, өшіру'))}
+                    </button>
+                  </div>
+                </Dialog.Content>
+              </Dialog.Overlay>
+            </Dialog.Portal>
+          </Dialog.Root>
+        </section>
+      </div>
+      <ProgressBackup />
+    </div>
+  );
 }
