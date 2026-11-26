@@ -20,7 +20,7 @@ npm.cmd run dev -- --port 3000
 
 Проверка камеры в Playwright подаёт локальный видеопоток из тестовой картинки, а не физическую веб-камеру. Для дополнительной проверки двух рук сохраните [тестовое фото MediaPipe](https://storage.googleapis.com/mediapipe-assets/woman_hands.jpg) вне проекта, укажите его путь в `PLAYWRIGHT_TWO_HANDS_FIXTURE` и запустите `npm.cmd run test:e2e`.
 
-Публичная версия после публикации через GitHub Pages: https://musulman2607-ship-it.github.io/ishara-kids/. Workflow `.github/workflows/pages.yml` создаёт статический экспорт из ветки `main`; при публикации устанавливается `GITHUB_PAGES=true`, чтобы Next.js учёл подкаталог `/ishara-kids`. Обновления в `main` автоматически публикуются повторно. Хранение прогресса остаётся только в браузере конкретного посетителя.
+Публичный сайт: https://amangeldi-era2007.github.io/ishara-kids/. Workflow `.github/workflows/pages.yml` публикует ветку `main`. При сборке `GITHUB_PAGES=true` включает префикс `/ishara-kids`.
 
 ## Данные и проверка
 
